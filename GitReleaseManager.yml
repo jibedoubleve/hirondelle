@@ -1,0 +1,33 @@
+# GitReleaseManager configuration: https://gittools.github.io/GitReleaseManager/docs/yaml
+# Release notes are generated from the closed issues of the milestone named after the version.
+# Every closed issue of the milestone must carry exactly one "include" label, or an "exclude" label.
+
+default-branch: master
+
+create:
+  include-footer: false            # no NuGet package yet
+  include-sha-section: false
+  allow-update-to-published: false # a published release is never rewritten by the CI
+
+issue-labels-include:
+  - enhancement
+  - bug
+  - documentation
+
+issue-labels-exclude:
+  - build
+  - duplicate
+  - invalid
+  - wontfix
+  - question
+
+issue-labels-alias:
+  - name: enhancement
+    header: Feature
+    plural: Features
+  - name: bug
+    header: Bug fix
+    plural: Bug fixes
+  - name: documentation
+    header: Documentation
+    plural: Documentation
