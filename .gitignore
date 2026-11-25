@@ -347,9 +347,8 @@ paket-files/
 **/__pycache__/
 *.pyc
 
-# Cake - Uncomment if you are using it
-#tools/**
-#!tools/packages.config
+# Cake
+tools/**
 
 # Tabs Studio
 *.tss
@@ -424,3 +423,37 @@ FodyWeavers.xsd
 
 # Official VS Code C# Dev Kit Extension exclusion
 #*.lscache
+
+# JetBrains Rider
+# Rider stores its settings in .idea/.idea.<SolutionName>/.idea/
+# Shared settings (code style, run configurations, dictionaries...) are kept,
+# user-specific and generated files are ignored.
+*.sln.iml
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries/*.local.xml
+.idea/**/shelf/
+.idea/**/contentModel.xml
+.idea/**/indexLayout.xml
+.idea/**/projectSettingsUpdater.xml
+.idea/**/modules.xml
+.idea/**/*.iml
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+.idea/**/httpRequests/
+.idea/**/caches/
+.idea/**/libraries/
+.idea/**/copilot*.xml
+.idea/**/AndroidProjectSystem.xml
+.idea/**/.name
+.idea/**/misc.xml
+.idea/**/vcs.xml
+.idea/**/discord.xml
+.idea/**/sonarlint/
+.idea/**/aws.xml
