@@ -1,7 +1,6 @@
-using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace Hirondelle.Utils;
+namespace Hirondelle.Scripts;
 
 internal sealed partial record ScriptInfo
 {
@@ -24,7 +23,8 @@ internal sealed partial record ScriptInfo
 
     #region Methods
 
-    [GeneratedRegex(@"^(?<version>\d+\.\d+\.\d+(?:\.\d+)?)(?:[_-](?<name>[^.\s]+))?\.sql\z", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    [GeneratedRegex(@"^(?<version>\d+\.\d+\.\d+(?:\.\d+)?)(?:[_-](?<name>[^.\s]+))?\.sql\z",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex NameParser();
 
     public static ScriptInfo Parse(string scriptName)
