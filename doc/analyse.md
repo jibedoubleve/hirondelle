@@ -22,7 +22,7 @@ The following kinds of names will be supported
 ```
 
 ```regex
-^(?<version>\d+\.\d+\.\d+(?:\.\d+)?)(?:[_-](?<name>[^.]+))?\.sql$
+^(?<version>\d+\.\d+\.\d+(?:\.\d+)?)(?:[_-](?<name>[^.\s]+))?\.sql\z
 ```
 ### Resource management
 
