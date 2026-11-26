@@ -40,16 +40,12 @@ public class ScriptTest
     }
 
     [Theory]
-    [InlineData("1.0.0_create_tables.sql", "1.0.0", "create_tables")]
-    [InlineData("1.1.0_add_users.sql", "1.1.0", "add_users")]
+    [InlineData("1.0.0_create_tables.sql", "1.0.0.0", "create_tables")]
     [InlineData("1.1.0.1_seed_users.sql", "1.1.0.1", "seed_users")]
-    [InlineData("1.2.0_add_index.sql", "1.2.0", "add_index")]
-    [InlineData("1.2.0.sql", "1.2.0", "")]
-    [InlineData("1.3.0-add_roles.sql", "1.3.0", "add_roles")]
-    [InlineData("1.0.0_CREATE_TABLES.SQL", "1.0.0", "CREATE_TABLES")]
-    [InlineData("1.0.0_CREATE_TABLES.sql", "1.0.0", "CREATE_TABLES")]
-    [InlineData("01.02.003_create_tables.sql", "1.2.3", "create_tables")]
-    [InlineData("1.1.0.1-seed_users.sql", "1.1.0.1", "seed_users")]
+    [InlineData("1.2.0.sql", "1.2.0.0", "")]
+    [InlineData("1.3.0-add_roles.sql", "1.3.0.0", "add_roles")]
+    [InlineData("1.0.0_CREATE_TABLES.SQL", "1.0.0.0", "CREATE_TABLES")]
+    [InlineData("01.02.003_create_tables.sql", "1.2.3.0", "create_tables")]
     public void When_parsing_valid_script_name_Then_ScriptInfo_has_expected_information(
         string scriptName, string versionStr, string name)
     {

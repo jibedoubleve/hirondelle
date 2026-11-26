@@ -38,13 +38,22 @@ internal sealed partial record ScriptInfo
         var name = matches[0].Groups["name"].Value;
         try
         {
-            var version = Version.Parse(
-                matches[0].Groups["version"].Value
-            );
+            var version = ParseNormalized(matches[0].Groups["version"].Value);
 
             return new ScriptInfo(version, name);
         }
         catch (Exception ex) { throw new ArgumentException($"Invalid version in script name: {scriptName}", ex); }
+
+
+        static Version ParseNormalized(string versionString)
+        {
+            var parsed = Version.Parse(versionString);
+            return new Version(
+                parsed.Major,
+                parsed.Minor,
+                Math.Max(parsed.Build, 0),
+                Math.Max(parsed.Revision, 0));
+        }
     }
 
     #endregion
