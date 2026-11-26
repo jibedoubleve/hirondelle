@@ -457,3 +457,7 @@ FodyWeavers.xsd
 .idea/**/discord.xml
 .idea/**/sonarlint/
 .idea/**/aws.xml
+
+# Coverage HTML report (reportgenerator)
+coveragereport/
+code-coverage-results.md
