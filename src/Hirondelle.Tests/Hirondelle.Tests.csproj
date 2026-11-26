@@ -9,12 +9,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Shouldly" Version="4.3.0"/>
-        <PackageReference Include="xunit.v3.core" Version="4.0.3"/>
+        <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.12.0" />
+        <PackageReference Include="Shouldly" Version="4.3.0" />
+        <PackageReference Include="xunit.v3.core" Version="4.0.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Hirondelle\Hirondelle.csproj"/>
+        <ProjectReference Include="..\Hirondelle\Hirondelle.csproj" />
     </ItemGroup>
 
 </Project>

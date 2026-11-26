@@ -23,6 +23,9 @@ jobs:
   build:
     name: Build & test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # post the coverage comment on the pull request
 
     steps:
       - name: Checkout
@@ -38,8 +41,37 @@ jobs:
       - name: Restore tools
         run: dotnet tool restore
 
-      - name: Build & test
-        run: dotnet cake
+      - name: Build, test & coverage
+        run: dotnet cake --target=Coverage
+
+      # Reads the Cobertura file filtered by ReportGenerator (generated code excluded)
+      # and writes code-coverage-results.md.
+      - name: Coverage summary
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coveragereport/Cobertura.xml
+          format: markdown
+          badge: true
+          indicators: true
+          output: both
+          thresholds: '60 80'
+
+      - name: Add coverage to the run summary
+        run: cat code-coverage-results.md >> "$GITHUB_STEP_SUMMARY"
+
+      # Skipped on pull requests from forks: their token cannot write comments.
+      - name: Comment coverage on the pull request
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
+        with:
+          header: coverage
+          path: code-coverage-results.md
+
+      - name: Upload HTML coverage report
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: coverage-report
+          path: coveragereport/
 
   release-draft:
     name: Release draft

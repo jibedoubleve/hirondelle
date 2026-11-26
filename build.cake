@@ -1,5 +1,6 @@
 #tool dotnet:?package=GitVersion.Tool&version=6.8.2
 #tool dotnet:?package=GitReleaseManager.Tool&version=0.20.0
+#tool dotnet:?package=dotnet-reportgenerator-globaltool&version=5.6.1
 #addin nuget:?package=Spectre.Console&version=0.57.2
 
 using Spectre.Console;
@@ -63,6 +64,41 @@ Task("Test")
         Configuration = configuration,
         NoBuild       = true
     }));
+
+// Runs the tests with Microsoft Code Coverage, then turns the Cobertura file into an HTML report.
+// Open ./coveragereport/index.html once done.
+Task("Coverage")
+    .IsDependentOn("Build")
+    .Does(() =>
+{
+    var resultsDirectory = MakeAbsolute(Directory("./TestResults"));
+    var reportDirectory  = MakeAbsolute(Directory("./coveragereport"));
+    var coverageFile     = resultsDirectory.CombineWithFilePath("coverage.cobertura.xml");
+
+    CleanDirectories(new[] { resultsDirectory, reportDirectory });
+
+    DotNetTest(solution, new DotNetTestSettings
+    {
+        Configuration    = configuration,
+        NoBuild          = true,
+        ArgumentCustomization = args => args
+            .Append("--results-directory").AppendQuoted(resultsDirectory.FullPath)
+            .Append("--coverage")
+            .Append("--coverage-output-format cobertura")
+            .Append("--coverage-output").AppendQuoted(coverageFile.GetFilename().FullPath)
+    });
+
+    ReportGenerator(coverageFile, reportDirectory, new ReportGeneratorSettings
+    {
+        // Cobertura: the filtered coverage file read by the CI summary (coveragereport/Cobertura.xml).
+        ReportTypes  = new[] { ReportGeneratorReportType.Html, ReportGeneratorReportType.TextSummary, ReportGeneratorReportType.Cobertura },
+        // Code emitted by the [GeneratedRegex] source generator is not ours to test.
+        ClassFilters = new[] { "-System.Text.RegularExpressions.Generated*" }
+    });
+
+    Information(System.IO.File.ReadAllText(reportDirectory.CombineWithFilePath("Summary.txt").FullPath));
+    Information("Coverage report: {0}", reportDirectory.CombineWithFilePath("index.html"));
+});
 
 // Creates (or updates) the draft pre-release of the milestone named after the next version.
 // Run by the CI after each push on master; the final release is published manually on GitHub.
