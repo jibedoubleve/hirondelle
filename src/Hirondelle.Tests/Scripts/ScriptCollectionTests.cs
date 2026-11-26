@@ -2,7 +2,7 @@ using Hirondelle.Scripts;
 using Shouldly;
 using Xunit;
 
-namespace Hirondelle.Tests;
+namespace Hirondelle.Tests.Scripts;
 
 public class ScriptCollectionTests
 {
