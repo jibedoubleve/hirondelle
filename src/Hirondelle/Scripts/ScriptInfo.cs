@@ -31,11 +31,13 @@ internal sealed partial record ScriptInfo
     {
         ArgumentNullException.ThrowIfNull(scriptName);
 
+        scriptName = scriptName[(scriptName.LastIndexOfAny(['\\', '/']) + 1)..];
         var matches = NameParser().Matches(scriptName);
 
         if (matches.Count == 0) { throw new ArgumentException($"Invalid script name: {scriptName}"); }
 
         var name = matches[0].Groups["name"].Value;
+        
         try
         {
             var version = ParseNormalized(matches[0].Groups["version"].Value);

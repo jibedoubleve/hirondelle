@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Hirondelle.Tests.Scripts;
 
-public class ScriptTest
+public class ScriptInfoTests
 {
     #region Methods
 

@@ -6,6 +6,6 @@
     <ItemGroup Condition="'$(HirondelleAutoEmbed)' == 'true'">
         <EmbeddedResource Remove="$(HirondelleFolder)\**\*.sql" />
         <EmbeddedResource Include="$(HirondelleFolder)\**\*.sql"
-                          LogicalName="Hirondelle/%(RecursiveDir)%(Filename)%(Extension)" />
+                          LogicalName="Hirondelle\%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
 </Project>
