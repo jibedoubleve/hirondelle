@@ -1,0 +1,4 @@
+* text=auto
+
+# All SQL scripts, used essentially for the embedded scripts
+*.sql text eol=lf 
