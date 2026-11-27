@@ -1,4 +1,5 @@
 using Hirondelle.Scripts;
+using Hirondelle.Tests.Utils;
 using Shouldly;
 using Xunit;
 
@@ -45,10 +46,10 @@ public class ScriptCollectionTests
                               .ToList();
 
         // act
-        var collection = new ScriptCollection(scripts);
+        var collection = new ScriptCollection(scripts.ToScripts());
 
         // assert
-        collection.Select(e => e.Version.ToString())
+        collection.Select(e => e.Info.Version.ToString())
                   .ShouldBe(sorted);
     }
 
@@ -56,7 +57,7 @@ public class ScriptCollectionTests
     [InlineData("1.0.0", "1.0.0")]
     [InlineData("1.0.0", "1.0.0.0")]
     [InlineData("01.00.00", "1.0.0.0")]
-    public void When_having_doubloons_Then_exception_is_thrown(string first, string second)
+    public void When_versions_are_duplicated_Then_exception_is_thrown(string first, string second)
     {
         // arrange
         const string name = "create_tables.sql";
@@ -67,14 +68,14 @@ public class ScriptCollectionTests
         };
 
         // act
-        var sut = () => new ScriptCollection(scripts);
+        var sut = () => new ScriptCollection(scripts.ToScripts());
 
         // assert
         sut.ShouldThrow<ArgumentException>();
     }
 
     [Fact]
-    public void When_having_doubloons_with_different_names_Then_exception_is_thrown()
+    public void When_duplicated_versions_have_different_names_Then_exception_is_thrown()
     {
         // arrange
         string[] strings = ["1.0.0_a.sql", "1.0.0-b.sql"];
@@ -82,14 +83,14 @@ public class ScriptCollectionTests
                              .ToList();
 
         // act
-        var sut = () => new ScriptCollection(scripts);
+        var sut = () => new ScriptCollection(scripts.ToScripts());
 
         // assert
         sut.ShouldThrow<ArgumentException>();
     }
 
     [Fact]
-    public void When_parsing_scripts_Then_scripts_are_sorted_by_ascending_version()
+    public void When_versions_have_3_and_4_parts_Then_scripts_are_sorted_by_ascending_version()
     {
         // arrange
         string[] strings =
@@ -111,15 +112,15 @@ public class ScriptCollectionTests
                              .ToList();
 
         // act
-        var collection = new ScriptCollection(scripts);
+        var collection = new ScriptCollection(scripts.ToScripts());
 
         // assert
-        collection.Select(e => e.Version.ToString())
+        collection.Select(e => e.Info.Version.ToString())
                   .ShouldBe(sorted);
     }
-    
+
     [Fact]
-    public void When_null_scripts_in_the_list_Then_exception_is_thrown()
+    public void When_a_script_has_no_info_Then_exception_is_thrown()
     {
         // arrange
         string[] strings =
@@ -134,14 +135,14 @@ public class ScriptCollectionTests
         scripts.Add(null!);
 
         // act
-        var collection = () => new ScriptCollection(scripts);
+        var collection = () => new ScriptCollection(scripts.ToScripts());
 
         // assert
         collection.ShouldThrow<ArgumentNullException>();
     }
 
     [Fact]
-    public void When_parsing_scripts_with_not_following_doubloons_Then_exception_is_thrown()
+    public void When_duplicated_versions_are_not_adjacent_Then_exception_is_thrown()
     {
         // arrange
         string[] strings =
@@ -156,14 +157,14 @@ public class ScriptCollectionTests
                              .ToList();
 
         // act
-        var sut = () => new ScriptCollection(scripts);
+        var sut = () => new ScriptCollection(scripts.ToScripts());
 
         // assert
         sut.ShouldThrow<ArgumentException>();
     }
 
     [Fact]
-    public void When_parsing_unique_script_Then_collection_with_one_element_returned()
+    public void When_collection_has_a_single_script_Then_it_is_returned()
     {
         // arrange
         string[] strings = ["1.0.0_create_tables.sql"];
@@ -173,15 +174,15 @@ public class ScriptCollectionTests
                              .ToList();
 
         // act
-        var collection = new ScriptCollection(scripts);
+        var collection = new ScriptCollection(scripts.ToScripts());
 
         // assert
-        collection.Select(e => e.Version.ToString())
+        collection.Select(e => e.Info.Version.ToString())
                   .ShouldBe(sorted);
     }
 
     [Fact]
-    public void When_sorting_3_and_4_section_version_Then_scripts_are_sorted_by_ascending_version()
+    public void When_versions_have_different_part_counts_Then_numeric_sort_is_used()
     {
         // arrange
         IEnumerable<string> versions =
@@ -200,10 +201,10 @@ public class ScriptCollectionTests
                               .ToList();
 
         // act
-        var collection = new ScriptCollection(scripts);
+        var collection = new ScriptCollection(scripts.ToScripts());
 
         // assert
-        collection.Select(e => e.Version.ToString())
+        collection.Select(e => e.Info.Version.ToString())
                   .ShouldBe(sorted);
     }
 
@@ -227,10 +228,10 @@ public class ScriptCollectionTests
                               .ToList();
 
         // act
-        var collection = new ScriptCollection(scripts);
+        var collection = new ScriptCollection(scripts.ToScripts());
 
         // assert
-        collection.Select(e => e.Version.ToString())
+        collection.Select(e => e.Info.Version.ToString())
                   .ShouldBe(sorted);
     }
 
